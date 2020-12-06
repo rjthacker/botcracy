@@ -11,9 +11,10 @@ client.on('ready', () => {
 
 // Help command
 
-client.on('message', (message) => {
-  if (message.content === '!help' || message.content === '!commands') {
-    message.channel.send(
+client.on('message', (msg) => {
+  let targetMember = msg.member.user;
+  if (msg.content === '!help' || msg.content === '!commands') {
+    msg.channel.send(
       `Hello ${targetMember}! This bot is currently being developed. Features will be added in the future, however for more info or if you wish to contribute, please message <@248030367666274304>.`
     );
   }
@@ -22,7 +23,7 @@ client.on('message', (message) => {
 // Remove 100 previous messages from channel command
 
 client.on('message', (msg) => {
-  if (msg.content === '!nuke') {
+  if (msg.content === '!clear') {
     (async () => {
       let fetched;
       do {
@@ -36,6 +37,7 @@ client.on('message', (msg) => {
 // Bill for voting command
 
 let bill;
+let activeLaws = [];
 
 //Create Bill
 
@@ -71,28 +73,28 @@ client.on('message', (msg) => {
 //Clear Bill
 
 client.on('message', (msg) => {
-  if (msg.content === '!clearbill') {
+  if (msg.content === '!repealbill') {
     bill = '';
-    msg.channel.send(`The bill has been cleared`);
+    msg.channel.send(`The bill has been repealed.`);
   }
 });
 
 // Basic Vote command
 
-client.on('message', function (message) {
+client.on('message', function (msg) {
   let yes = 0;
   let no = 0;
 
-  if (message.content.toLowerCase().startsWith('!vote')) {
-    if (message.member.hasPermission('Admin')) {
-      message.channel.send('The vote begins!').then((msg) => {
+  if (msg.content.toLowerCase().startsWith('!vote')) {
+    if (msg.member.hasPermission('Admin')) {
+      msg.channel.send('The vote begins!').then((msg) => {
         msg.react(`👍`).then(() => msg.react('👎'));
         const filter = (reaction, user) => {
           return [`👍`, '👎'].includes(reaction.emoji.name);
         };
 
         const collector = msg.createReactionCollector(filter, {
-          time: 10000,
+          time: 20000,
         });
         collector.on('collect', (reaction, reactionCollector) => {
           if (reaction.emoji.name === `👍`) {
@@ -103,15 +105,32 @@ client.on('message', function (message) {
         });
         collector.on('end', (reaction, reactionCollector) => {
           if (yes > no) {
-            message.channel.send(`The ${bill} bill has passed!`);
+            msg.channel.send(`The ${bill} bill has passed!`);
+            activeLaws.push(` ${bill}`);
           } else if (yes < no) {
-            message.channel.send(`The ${bill} bill has failed!`);
+            msg.channel.send(`The ${bill} bill has failed!`);
           } else {
-            message.channel.send(`The ${bill} bill has tied!`);
+            msg.channel.send(`The ${bill} bill has tied!`);
           }
         });
       });
     }
+  }
+});
+
+// Active Bills
+
+client.on('message', (msg) => {
+  if (msg.content === '!activelaws') {
+    msg.channel.send(`The active laws:${activeLaws}`);
+  }
+});
+
+// Random Number
+
+client.on('message', (msg) => {
+  if (msg.content === '!randomnumber') {
+    msg.channel.send(Math.floor(Math.random() * 10 + 1));
   }
 });
 
