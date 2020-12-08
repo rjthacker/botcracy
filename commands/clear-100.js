@@ -1,6 +1,8 @@
 module.exports = {
-  name: 'clear',
+  name: 'clear-100',
   description: 'Remove 100 previous messages from channel',
+  args: false,
+  guildOnly: true,
   execute(message, args) {
     (async () => {
       let fetched;

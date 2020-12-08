@@ -3,6 +3,8 @@
         "Boop",
         "awaitmessages",
         "clearbill",
+        "cooldown",
+        "cooldowns",
         "postbuild",
         "randomnumber",
         "repealbill"
