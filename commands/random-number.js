@@ -3,7 +3,7 @@ module.exports = {
   description: 'Provides a random number between 1 - 10',
   args: false,
   cooldown: 5,
-  execute(message, args) {
+  execute(message) {
     message.channel.send(Math.floor(Math.random() * 10 + 1));
   },
 };
