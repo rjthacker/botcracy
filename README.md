@@ -12,4 +12,4 @@ Botcracy is a discord bot that simulates a government and allows users to vote o
 
 ## Invite to server
 
-https://discord.com/oauth2/authorize?client_id=783942469581537280&permissions=268516352&scope=bot
+https://discord.com/api/oauth2/authorize?client_id=783942469581537280&permissions=469974208&scope=bot
