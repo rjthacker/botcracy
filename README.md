@@ -8,7 +8,6 @@ Botcracy is a discord bot that simulates a government and allows users to vote o
 - create-law
 - repeal-law
 - executive-order
-- clear-100
 
 ## Invite to server
 
