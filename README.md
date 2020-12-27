@@ -1,4 +1,4 @@
-# Botcracy - 0.3.0
+# Botcracy - 0.3.2
 
 Botcracy is a discord bot that simulates a government and allows users to vote on roles, create new laws and more.
 
