@@ -9,6 +9,7 @@ module.exports = {
   execute(message, args) {
     const data = [];
     const { commands } = message.client;
+    console.log('!!!!!!!!! help command used !!!!!!!!!');
 
     if (!args.length) {
       data.push(
@@ -57,9 +58,5 @@ module.exports = {
     data.push(`**Cooldown:** ${command.cooldown || 3} second(s)`);
 
     message.channel.send(data, { split: true });
-
-    console.log(
-      '!!!!!!!!!~~~~~~~~!!!!!!!!! help command used !!!!!!!!!~~~~~~~~!!!!!!!!!'
-    );
   },
 };

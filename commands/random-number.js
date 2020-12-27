@@ -5,8 +5,6 @@ module.exports = {
   cooldown: 5,
   execute(message) {
     message.channel.send(Math.floor(Math.random() * 10 + 1));
-    console.log(
-      '!!!!!!!!!~~~~~~~~!!!!!!!!! random-number command used !!!!!!!!!~~~~~~~~!!!!!!!!!'
-    );
+    console.log('!!!!!!!!! random-number command used !!!!!!!!!');
   },
 };

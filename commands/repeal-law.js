@@ -58,8 +58,6 @@ module.exports = {
             message.channel.send('Time has ran out.');
           });
       });
-    console.log(
-      '!!!!!!!!!~~~~~~~~!!!!!!!!! repeal-law command used !!!!!!!!!~~~~~~~~!!!!!!!!!'
-    );
+    console.log('!!!!!!!!! repeal-law command used !!!!!!!!!');
   },
 };

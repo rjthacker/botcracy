@@ -56,8 +56,6 @@ module.exports = {
             message.channel.send('Time has ran out.');
           });
       });
-    console.log(
-      '!!!!!!!!!~~~~~~~~!!!!!!!!! create-law command used !!!!!!!!!~~~~~~~~!!!!!!!!!'
-    );
+    console.log('!!!!!!!!! create-law command used !!!!!!!!!');
   },
 };
