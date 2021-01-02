@@ -6,6 +6,7 @@ module.exports = {
   execute(message, args) {
     let targetMember = message.member.user;
     let filter = (m) => m.author.id === message.author.id;
+    console.log('!!!!!!!!! executive-order command used !!!!!!!!!');
     message.channel
       .send(
         `${targetMember} is issuing a executive order. Please provide the order name.`
@@ -28,6 +29,5 @@ module.exports = {
             message.channel.send('Time has ran out.');
           });
       });
-    console.log('!!!!!!!!! executive-order command used !!!!!!!!!');
   },
 };

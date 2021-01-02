@@ -8,6 +8,7 @@ module.exports = {
     let yes = 0;
     let no = 0;
     let filter = (m) => m.author.id === message.author.id;
+    console.log('!!!!!!!!! repeal-law command used !!!!!!!!!');
     message.channel
       .send(
         `${targetMember} is proposing a repeal! Please provide the name of the law.`
@@ -58,6 +59,5 @@ module.exports = {
             message.channel.send('Time has ran out.');
           });
       });
-    console.log('!!!!!!!!! repeal-law command used !!!!!!!!!');
   },
 };

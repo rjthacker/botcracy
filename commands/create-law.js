@@ -8,6 +8,7 @@ module.exports = {
     let yes = 0;
     let no = 0;
     let filter = (m) => m.author.id === message.author.id;
+    console.log('!!!!!!!!! create-law command used !!!!!!!!!');
     message.channel
       .send(`${targetMember} is proposing a law! Please provide the name.`)
       .then(() => {
@@ -29,7 +30,7 @@ module.exports = {
                 };
 
                 const collector = message.createReactionCollector(filter, {
-                  time: 20000,
+                  time: 60000,
                 });
                 collector.on('collect', (reaction) => {
                   if (reaction.emoji.name === `👍`) {
@@ -56,6 +57,5 @@ module.exports = {
             message.channel.send('Time has ran out.');
           });
       });
-    console.log('!!!!!!!!! create-law command used !!!!!!!!!');
   },
 };
