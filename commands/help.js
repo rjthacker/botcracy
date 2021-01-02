@@ -9,16 +9,18 @@ module.exports = {
   execute(message, args) {
     const data = [];
     const { commands } = message.client;
-    console.log('!!!!!!!!! help command used !!!!!!!!!');
+    console.log(
+      `!!!!!!!!! ${message.author.tag} used the help command used !!!!!!!!!`
+    );
 
     if (!args.length) {
-      data.push(
-        `This bot is currently being developed. New features will be added periodically. For more info or if you wish to contribute, please message <@248030367666274304>.`
-      );
       data.push("Here's a list of all my commands:");
       data.push(commands.map((command) => command.name).join(', '));
       data.push(
         `\nYou can send \`${prefix}help [command name]\` to get info on a specific command!`
+      );
+      data.push(
+        `\nThis bot is currently being developed. New features will be added periodically. For more info or if you wish to contribute, please join the Botcracy support channel - https://discord.com/invite/w9cAN4Ym29`
       );
 
       return message.author

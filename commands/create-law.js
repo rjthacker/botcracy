@@ -8,7 +8,9 @@ module.exports = {
     let yes = 0;
     let no = 0;
     let filter = (m) => m.author.id === message.author.id;
-    console.log('!!!!!!!!! create-law command used !!!!!!!!!');
+    console.log(
+      `!!!!!!!!! ${message.author.tag} used the create-law command used !!!!!!!!!`
+    );
     message.channel
       .send(`${targetMember} is proposing a law! Please provide the name.`)
       .then(() => {

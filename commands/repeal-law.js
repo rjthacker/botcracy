@@ -8,7 +8,9 @@ module.exports = {
     let yes = 0;
     let no = 0;
     let filter = (m) => m.author.id === message.author.id;
-    console.log('!!!!!!!!! repeal-law command used !!!!!!!!!');
+    console.log(
+      `!!!!!!!!! ${message.author.tag} used the repeal-law command used !!!!!!!!!`
+    );
     message.channel
       .send(
         `${targetMember} is proposing a repeal! Please provide the name of the law.`

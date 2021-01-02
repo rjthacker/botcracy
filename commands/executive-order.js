@@ -6,7 +6,9 @@ module.exports = {
   execute(message, args) {
     let targetMember = message.member.user;
     let filter = (m) => m.author.id === message.author.id;
-    console.log('!!!!!!!!! executive-order command used !!!!!!!!!');
+    console.log(
+      `!!!!!!!!! ${message.author.tag} used the executive-order command used !!!!!!!!!`
+    );
     message.channel
       .send(
         `${targetMember} is issuing a executive order. Please provide the order name.`
