@@ -1,6 +1,7 @@
 module.exports = {
   name: 'executive-order',
-  description: '',
+  description:
+    'Creates an executive order that does not need a vote, can only be used by a ',
   args: false,
   guildOnly: true,
   execute(message, args) {
@@ -9,27 +10,33 @@ module.exports = {
     console.log(
       `!!!!!!!!! ${message.author.tag} used the executive-order command used !!!!!!!!!`
     );
-    message.channel
-      .send(
-        `${targetMember} is issuing a executive order. Please provide the order name.`
-      )
-      .then(() => {
-        message.channel
-          .awaitMessages(filter, {
-            max: 1,
-            time: 30000,
-            errors: ['time'],
-          })
-          .then((message) => {
-            message = message.first();
-            let executiveOrder = message.content;
-            message.channel.send(
-              `The ${executiveOrder} executive order has been issued.`
-            );
-          })
-          .catch(() => {
-            message.channel.send('Time has ran out.');
-          });
-      });
+    if (message.member.roles.cache.find((r) => r.name === 'President')) {
+      message.channel
+        .send(
+          `${targetMember} is issuing a executive order. Please provide the order name.`
+        )
+        .then(() => {
+          message.channel
+            .awaitMessages(filter, {
+              max: 1,
+              time: 30000,
+              errors: ['time'],
+            })
+            .then((message) => {
+              message = message.first();
+              let executiveOrder = message.content;
+              message.channel.send(
+                `The ${executiveOrder} executive order has been issued.`
+              );
+            })
+            .catch(() => {
+              message.channel.send('Time has ran out.');
+            });
+        });
+    } else {
+      message.channel.send(
+        `Uh-oh! ${targetMember} you do not have the power to create an executive order, that is reserved to the President.`
+      );
+    }
   },
 };
