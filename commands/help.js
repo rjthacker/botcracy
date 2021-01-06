@@ -20,7 +20,7 @@ module.exports = {
         `\nYou can send \`${prefix}help [command name]\` to get info on a specific command!`
       );
       data.push(
-        `\nThis bot is currently being developed. New features will be added periodically. For more info or if you wish to contribute, please join the Botcracy support channel - https://discord.com/invite/w9cAN4Ym29`
+        `\nThis bot is currently being developed, and new features are being added periodically. \nFor more info, feedback, or suggestions, please join the Botcracy support channel.\n \nhttps://discord.com/invite/w9cAN4Ym29`
       );
 
       return message.author

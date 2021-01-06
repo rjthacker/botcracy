@@ -21,6 +21,7 @@ for (const file of commandFiles) {
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
+  console.log(`I am in ${client.guilds.cache.size} servers`);
 });
 
 client.on('message', (message) => {
