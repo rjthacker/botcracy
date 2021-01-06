@@ -4,12 +4,12 @@ Botcracy is a discord bot that simulates a government and allows users to vote o
 
 ## Commands
 
-#help - DM's all bot commands to member
-#create-law - Stars the process on creating a new law
-#repeal-law - Starts the process to repeal a law
-#executive-order - Creates a new executive order - Requires the President role
-#register-to-vote - Gives the member the voter role - Will be required for voting in the future
-#voter-count - Provides the number of members with the voter role
+- #help - DM's all bot commands to member
+- #create-law - Stars the process on creating a new law
+- #repeal-law - Starts the process to repeal a law
+- #executive-order - Creates a new executive order - Requires the President role
+- #register-to-vote - Gives the member the voter role - Will be required for voting in the future
+- #voter-count - Provides the number of members with the voter role
 
 ## Invite to server
 
