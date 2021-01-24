@@ -8,5 +8,6 @@
         "postbuild",
         "randomnumber",
         "repealbill"
-    ]
+    ],
+    "liveServer.settings.port": 5501
 }
