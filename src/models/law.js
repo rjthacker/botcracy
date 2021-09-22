@@ -1,0 +1,43 @@
+const mongoose = require('mongoose');
+
+const law = mongoose.model('active-laws', {
+  guild: {
+    type: Number,
+    required: true,
+  },
+  name: {
+    type: String,
+    required: true,
+    trim: true,
+    lowercase: true,
+  },
+  description: {
+    type: String,
+    required: true,
+    trim: true,
+    default: 'No description provided',
+    lowercase: true,
+  },
+  representative: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  createdDate: {
+    type: Date,
+    required: true,
+    default: Date.now,
+  },
+  votes: {
+    type: Number,
+    required: true,
+    default: 0,
+    validate(value) {
+      if (value < 0) {
+        throw new Error('Amount of votes must be a positive number');
+      }
+    },
+  },
+});
+
+module.exports = law;

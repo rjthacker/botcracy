@@ -1,4 +1,5 @@
 require('dotenv').config();
+require('./src/db/mongoose');
 
 const fs = require('fs');
 const Discord = require('discord.js');

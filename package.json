@@ -11,10 +11,15 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "chalk": "^4.1.2",
     "discord.js": "^12.5.1",
-    "dotenv": "^8.2.0"
+    "dotenv": "^8.2.0",
+    "moment": "^2.29.1",
+    "mongodb": "^4.1.2",
+    "mongoose": "^6.0.6",
+    "validator": "^13.6.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.6"
+    "nodemon": "^2.0.12"
   }
 }
