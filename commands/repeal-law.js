@@ -41,60 +41,62 @@ module.exports = {
                 .then(() => {
                   if (guildsLaws.includes(law)) {
                     message.channel.send(`The law is "${law}".`);
-                    message.channel.send('The vote begins!').then((message) => {
-                      message.react(`👍`).then(() => message.react('👎'));
-                      const filter = (reaction) => {
-                        return [`👍`, '👎'].includes(reaction.emoji.name);
-                      };
+                    message.channel
+                      .send('The vote begins! \nYou have 1 minute to vote!')
+                      .then((message) => {
+                        message.react(`👍`).then(() => message.react('👎'));
+                        const filter = (reaction) => {
+                          return [`👍`, '👎'].includes(reaction.emoji.name);
+                        };
 
-                      const collector = message.createReactionCollector(
-                        filter,
-                        {
-                          time: 20000,
-                        }
-                      );
-                      collector.on('collect', (reaction) => {
-                        if (reaction.emoji.name === `👍`) {
-                          yes += 1;
-                        } else if (reaction.emoji.name === `👎`) {
-                          no += 1;
-                        }
-                      });
-                      collector.on('end', () => {
-                        if (yes > no) {
-                          lawModel.find(
-                            { guild: guild, name: law.toLowerCase() },
-                            function (err, law) {
-                              if (err) {
-                                res.send(err);
-                              }
-                              let id = law[0]._id;
-                              lawModel.findByIdAndDelete(
-                                id,
-                                function (err, docs) {
-                                  if (err) {
-                                    console.log(err);
-                                    message.channel.send(
-                                      `There was an issue deleting the law. Please contact the bot owner with information regarding the issue.`
-                                    );
-                                  } else {
-                                    message.channel.send(
-                                      `The "${law[0].name}"" law has been repealed and removed from your laws!`
-                                    );
-                                  }
+                        const collector = message.createReactionCollector(
+                          filter,
+                          {
+                            time: 50000,
+                          }
+                        );
+                        collector.on('collect', (reaction) => {
+                          if (reaction.emoji.name === `👍`) {
+                            yes += 1;
+                          } else if (reaction.emoji.name === `👎`) {
+                            no += 1;
+                          }
+                        });
+                        collector.on('end', () => {
+                          if (yes > no) {
+                            lawModel.find(
+                              { guild: guild, name: law.toLowerCase() },
+                              function (err, law) {
+                                if (err) {
+                                  res.send(err);
                                 }
-                              );
-                            }
-                          );
-                        } else if (yes < no) {
-                          message.channel.send(`The repeal has failed!`);
-                        } else {
-                          message.channel.send(
-                            `The repeal has tied! The law was not repealed.`
-                          );
-                        }
+                                let id = law[0]._id;
+                                lawModel.findByIdAndDelete(
+                                  id,
+                                  function (err, docs) {
+                                    if (err) {
+                                      console.log(err);
+                                      message.channel.send(
+                                        `There was an issue deleting the law. Please contact the bot owner with information regarding the issue.`
+                                      );
+                                    } else {
+                                      message.channel.send(
+                                        `The "${law[0].name}"" law has been repealed and removed from your laws!`
+                                      );
+                                    }
+                                  }
+                                );
+                              }
+                            );
+                          } else if (yes < no) {
+                            message.channel.send(`The repeal has failed!`);
+                          } else {
+                            message.channel.send(
+                              `The repeal has tied! The law was not repealed.`
+                            );
+                          }
+                        });
                       });
-                    });
                   } else {
                     message.channel.send(`That law does not exist`);
                   }
