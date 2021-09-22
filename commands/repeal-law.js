@@ -30,9 +30,8 @@ module.exports = {
             if (message.content !== null) {
               let law = message.content;
               let guildsLaws = [];
-              const guild = message.guild.id;
               lawModel
-                .find({ guild: guild })
+                .find({ guildID: message.guild.id })
                 .then((laws) => {
                   for (let i = 0; i < laws.length; i++) {
                     guildsLaws.push(laws[i].name);
@@ -65,7 +64,10 @@ module.exports = {
                         collector.on('end', () => {
                           if (yes > no) {
                             lawModel.find(
-                              { guild: guild, name: law.toLowerCase() },
+                              {
+                                guildID: message.guild.id,
+                                name: law.toLowerCase(),
+                              },
                               function (err, law) {
                                 if (err) {
                                   res.send(err);

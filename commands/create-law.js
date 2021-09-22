@@ -27,9 +27,8 @@ module.exports = {
             let law = message.content;
             if (law.content !== null) {
               let guildsLaws = [];
-              const guild = message.guild.id;
               lawModel
-                .find({ guild: guild })
+                .find({ guildID: message.guild.id })
                 .then((laws) => {
                   for (let i = 0; i < laws.length; i++) {
                     guildsLaws.push(laws[i].name);
@@ -112,7 +111,8 @@ module.exports = {
                                             collector.on('end', () => {
                                               if (yes > no) {
                                                 const newLaw = new lawModel({
-                                                  guild: message.guild.id,
+                                                  guildID: message.guild.id,
+                                                  guildName: message.guild.name,
                                                   name: law,
                                                   description: description,
                                                   representative:

@@ -35,7 +35,7 @@ module.exports = {
           if (message.content) {
             lawModel
               .find({
-                guild: message.guild.id,
+                guildID: message.guild.id,
                 name: message.content.toLowerCase(),
               })
               .then(function (law) {
@@ -68,7 +68,9 @@ module.exports = {
                     // },
                     {
                       name: 'Date Passed',
-                      value: moment(law[0].createdDate).format('llll'),
+                      value: moment(law[0].createdDate).format(
+                        'dddd, MMMM Do YYYY'
+                      ),
                       inline: false,
                     },
                     // {

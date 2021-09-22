@@ -1,8 +1,6 @@
 const chalk = require('chalk');
 const lawModel = require('../src/models/law');
 
-const moment = require('moment');
-
 function capitalizeFirstLetters(str) {
   return str.replace(/^\w|\s\w/g, function (letter) {
     return letter.toUpperCase();
@@ -23,7 +21,7 @@ module.exports = {
       chalk.bgRed.bold(`${message.author.tag} used the show-laws command used`)
     );
     lawModel
-      .find({ guild: message.guild.id })
+      .find({ guildID: message.guild.id })
       .then(function (law) {
         let fields = [];
         for (let i = 0; i < law.length; i++) {
