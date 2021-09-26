@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const showLaws = mongoose.model('active-laws', {
-  guild: {
+  guildID: {
     type: Number,
     required: true,
   },

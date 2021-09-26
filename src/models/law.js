@@ -1,9 +1,14 @@
 const mongoose = require('mongoose');
 
 const law = mongoose.model('active-laws', {
-  guild: {
+  guildID: {
     type: Number,
     required: true,
+  },
+  guildName: {
+    type: String,
+    required: true,
+    trim: true,
   },
   name: {
     type: String,
