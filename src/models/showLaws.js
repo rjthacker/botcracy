@@ -5,7 +5,7 @@ const showLaws = mongoose.model('active-laws', {
     type: Number,
     required: true,
   },
-  name: {
+  guildName: {
     type: String,
     required: true,
     trim: true,
