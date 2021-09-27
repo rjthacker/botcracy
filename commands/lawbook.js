@@ -56,7 +56,7 @@ module.exports = {
       lawModel
         .find({
           guildID: message.guild.id,
-          name: args[0].toLowerCase(),
+          name: args.join(' ').toLowerCase(),
         })
         .then(function (law) {
           const lawEmbed = {
