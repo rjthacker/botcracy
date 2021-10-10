@@ -12,6 +12,8 @@ module.exports = {
     // Declarations
     let action = args[0];
     let value = args[1];
+    let votingTime = 60000;
+    let lawRequiredVotes = 1;
 
     // Logs name of user who called the command
     console.log(
@@ -39,9 +41,14 @@ module.exports = {
       )
       .clone()
       .then((guildSettings) => {
+        // Sets voting time if guild settings exist
+        if (guildSettings.length > 0) {
+          votingTime = guildSettings[0].votingTime;
+          lawRequiredVotes = guildSettings[0].lawRequiredVotes;
+        }
+
         // If no action, return the settings to the user
         if (action === undefined) {
-          console.log(guildSettings[0]);
           const settingsEmbed = {
             color: 0x0099ff,
             author: {
@@ -54,11 +61,11 @@ module.exports = {
             fields: [
               {
                 name: "Voting Time",
-                value: `${guildSettings[0].votingTime / 60000} Minutes`,
+                value: `${votingTime / 60000} Minutes`,
               },
               {
                 name: "Votes needed to pass a law",
-                value: guildSettings[0].lawRequiredVotes,
+                value: lawRequiredVotes,
               },
             ],
           };
