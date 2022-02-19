@@ -10,7 +10,7 @@ module.exports = {
     const data = [];
     const { commands } = message.client;
     console.log(
-      `!!!!!!!!! ${message.author.tag} used the help command used !!!!!!!!!`
+      `${message.author.tag} used the help command.`
     );
 
     if (!args.length) {
@@ -18,9 +18,6 @@ module.exports = {
       data.push(commands.map((command) => command.name).join(', '));
       data.push(
         `\nYou can send \`${prefix}help [command name]\` to get info on a specific command!`
-      );
-      data.push(
-        `\nNew features being added periodically. \nFor more info, feedback, or suggestions, please join the Botcracy support channel.\n \nhttps://discord.com/invite/w9cAN4Ym29`
       );
 
       return message.author
