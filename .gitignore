@@ -1,2 +1,5 @@
 node_modules
 production-files
+.env
+.env.development
+.env.production
