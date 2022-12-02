@@ -1,7 +1,6 @@
-import { config } from "dotenv";
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
-config({ path: `.env.${process.env.NODE_ENV}` });
+require("dotenv").config({ path: `.env.${process.env.NODE_ENV}` });
 
 mongoose.connect(process.env.CONNECTION_URL, {
   useNewUrlParser: true,
