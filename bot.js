@@ -12,7 +12,7 @@ require("./src/db/mongoose.js");
 const TOKEN = process.env.BOT_TOKEN;
 
 // Create a new client instance
-const client = new Client({ intents: 46859 });
+const client = new Client({ intents: 71169 });
 
 client.commands = new Collection();
 
