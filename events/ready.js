@@ -6,7 +6,7 @@ module.exports = {
   once: true,
   execute(client) {
     client.user.setPresence({
-      activities: [{ name: `Being upgraded!`, type: ActivityType.Playing }],
+      activities: [{ name: `Being Updated`, type: ActivityType.Playing }],
       status: "online",
     });
     console.log(`Logged in as ${client.user.tag}!`);
