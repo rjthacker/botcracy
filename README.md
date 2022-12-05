@@ -30,6 +30,7 @@ https://discord.com/api/oauth2/authorize?client_id=783942469581537280&permission
 - discordbotlist - https://discordbotlist.com/bots/botcracy
 
 - Discord.js Documentation - https://discord.js.org/#/docs/discord.js/main/general/welcome
+- Trello Board - https://trello.com/b/zcYAlAjQ/development
 
 ## Developers
 
