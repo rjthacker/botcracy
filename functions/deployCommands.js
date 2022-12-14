@@ -7,7 +7,6 @@ require("dotenv").config({ path: `.env.${process.env.NODE_ENV}` });
 // Environemnt variables
 const TOKEN = process.env.BOT_TOKEN;
 const CLIENT_ID = process.env.CLIENT_ID;
-const GUILD_ID = process.env.GUILD_ID;
 
 const commands = [];
 
@@ -30,7 +29,7 @@ const rest = new REST({ version: "10" }).setToken(TOKEN);
     );
 
     const data = await rest.put(
-      Routes.applicationGuildCommands(CLIENT_ID, GUILD_ID),
+      Routes.applicationCommands(CLIENT_ID),
       { body: commands }
     );
 
