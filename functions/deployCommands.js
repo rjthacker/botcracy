@@ -7,6 +7,7 @@ require("dotenv").config({ path: `.env.${process.env.NODE_ENV}` });
 // Environemnt variables
 const TOKEN = process.env.BOT_TOKEN;
 const CLIENT_ID = process.env.CLIENT_ID;
+const GUILD_ID = process.env.GUILD_ID;
 
 const commands = [];
 
@@ -28,10 +29,19 @@ const rest = new REST({ version: "10" }).setToken(TOKEN);
       `Started refreshing ${commands.length} application (/) commands.`
     );
 
-    const data = await rest.put(
-      Routes.applicationCommands(CLIENT_ID),
-      { body: commands }
-    );
+    let data;
+    if (process.env.NODE_ENV === "production") {
+      data = await rest.put(Routes.applicationCommands(CLIENT_ID), {
+        body: commands,
+      });
+    } else {
+      data = await rest.put(
+        Routes.applicationGuildCommands(CLIENT_ID, GUILD_ID),
+        {
+          body: commands,
+        }
+      );
+    }
 
     console.log(
       `Successfully reloaded ${data.length} application (/) commands.`
