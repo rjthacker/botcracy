@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const law = mongoose.model('active-laws', {
+const law = mongoose.model("active-laws", {
   guildID: {
     type: Number,
     required: true,
@@ -20,11 +20,11 @@ const law = mongoose.model('active-laws', {
     type: String,
     required: true,
     trim: true,
-    default: 'No description provided',
+    default: "No description provided",
     lowercase: true,
   },
   representative: {
-    type: String,
+    type: Number,
     required: true,
     trim: true,
   },
@@ -39,7 +39,7 @@ const law = mongoose.model('active-laws', {
     default: 0,
     validate(value) {
       if (value < 0) {
-        throw new Error('Amount of votes must be a positive number');
+        throw new Error("Amount of votes must be a positive number");
       }
     },
   },
