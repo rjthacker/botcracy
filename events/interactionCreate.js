@@ -52,7 +52,7 @@ module.exports = {
 
           const collector = message.createReactionCollector({
             filter,
-            time: 15000,
+            time: votingTime,
           });
 
           const newLaw = new lawModel({
