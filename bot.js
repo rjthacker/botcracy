@@ -1,89 +1,51 @@
-require('dotenv').config();
-require('./src/db/mongoose');
+const fs = require("node:fs");
+const path = require("node:path");
+const { Client, Collection } = require("discord.js");
 
-const fs = require('fs');
-const Discord = require('discord.js');
-const { prefix } = require('./config.json');
+// Changes path based on environment
+require("dotenv").config({ path: `.env.${process.env.NODE_ENV}` });
 
-// create a new Discord client
-const client = new Discord.Client();
-client.commands = new Discord.Collection();
+require("./functions/deployCommands.js");
+require("./src/db/mongoose.js");
 
-const cooldowns = new Discord.Collection();
+// Environemnt variables
+const TOKEN = process.env.BOT_TOKEN;
 
+// Create a new client instance
+const client = new Client({ intents: 71169 });
+
+client.commands = new Collection();
+
+const commandsPath = path.join(__dirname, "commands");
 const commandFiles = fs
-  .readdirSync('./commands')
-  .filter((file) => file.endsWith('.js'));
+  .readdirSync(commandsPath)
+  .filter((file) => file.endsWith(".js"));
 
 for (const file of commandFiles) {
-  const command = require(`./commands/${file}`);
-  client.commands.set(command.name, command);
+  const filePath = path.join(commandsPath, file);
+  const command = require(filePath);
+  if ("data" in command && "execute" in command) {
+    client.commands.set(command.data.name, command);
+  } else {
+    console.log(
+      `[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`
+    );
+  }
 }
 
-client.on('ready', () => {
-  console.log(`Logged in as ${client.user.tag}!`);
-  console.log(`I am in ${client.guilds.cache.size} servers`);
-});
+const eventsPath = path.join(__dirname, "events");
+const eventFiles = fs
+  .readdirSync(eventsPath)
+  .filter((file) => file.endsWith(".js"));
 
-client.on('message', (message) => {
-  if (!message.content.startsWith(prefix) || message.author.bot) return;
-
-  const args = message.content.slice(prefix.length).trim().split(/ +/);
-  const commandName = args.shift().toLowerCase();
-  const command =
-    client.commands.get(commandName) ||
-    client.commands.find(
-      (cmd) => cmd.aliases && cmd.aliases.includes(commandName)
-    );
-
-  if (!command) return;
-
-  if (command.guildOnly && message.channel.type === 'dm') {
-    return message.reply(
-      "I can't execute that command inside direct messages!"
-    );
-  }
-
-  if (command.args && !args.length) {
-    let reply = `You didn't provide any arguments, ${message.author}!`;
-
-    if (command.usage) {
-      reply += `\nThe proper usage would be: \`${prefix}${command.name} ${command.usage}\``;
-    }
-
-    return message.channel.send(reply);
-  }
-
-  if (!cooldowns.has(command.name)) {
-    cooldowns.set(command.name, new Discord.Collection());
-  }
-
-  const now = Date.now();
-  const timestamps = cooldowns.get(command.name);
-  const cooldownAmount = (command.cooldown || 3) * 1000;
-
-  if (timestamps.has(message.author.id)) {
-    const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
-
-    if (now < expirationTime) {
-      const timeLeft = (expirationTime - now) / 1000;
-      return message.reply(
-        `please wait ${timeLeft.toFixed(
-          1
-        )} more second(s) before reusing the \`${command.name}\` command.`
-      );
-    }
+for (const file of eventFiles) {
+  const filePath = path.join(eventsPath, file);
+  const event = require(filePath);
+  if (event.once) {
+    client.once(event.name, (...args) => event.execute(...args));
   } else {
-    timestamps.set(message.author.id, now);
-    setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
+    client.on(event.name, (...args) => event.execute(...args));
   }
+}
 
-  try {
-    command.execute(message, args);
-  } catch (error) {
-    console.error(error);
-    message.reply('There was an error trying to execute that command!');
-  }
-});
-
-client.login(process.env.BOT_TOKEN);
+client.login(TOKEN);
