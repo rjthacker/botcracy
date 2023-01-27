@@ -33,7 +33,7 @@ module.exports = {
       let yes = 0;
       let no = 0;
       let totalVotes = -2;
-      let votingTime = 9000;
+      let votingTime = 180000;
       let lawRequiredVotes = 1;
 
       interaction.reply(
@@ -91,7 +91,9 @@ module.exports = {
                 });
             } else if (yes < no && totalVotes >= lawRequiredVotes) {
               console.log("Failed");
-              interaction.channel.send(`\nThe ${lawName} law has failed to pass!`);
+              interaction.channel.send(
+                `\nThe ${lawName} law has failed to pass!`
+              );
             } else if (yes === no && totalVotes >= lawRequiredVotes) {
               console.log("Tied");
               interaction.channel.send(`\nThe ${lawName} law has tied!`);
