@@ -12,7 +12,7 @@ module.exports = {
     .setDescription("Starts the voting process for creating a new law"),
   async execute(interaction) {
     const modal = new ModalBuilder()
-      .setCustomId("lawModal")
+      .setCustomId("createLawModal")
       .setTitle("Law Creator");
 
     const lawNameInput = new TextInputBuilder()
