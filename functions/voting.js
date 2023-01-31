@@ -14,7 +14,9 @@ async function voting(interaction, lawName, lawDescription) {
   }
 
   await interaction.reply(
-    `${interaction.user} has started a vote on the law "${lawName}"\nThe law description is: "${lawDescription}"`
+    interaction.customId === "createLawModal"
+      ? `${interaction.user} has started a vote on the law "${lawName}"\nThe law description is: "${lawDescription}"`
+      : `${interaction.user} has started a vote to repeal the law "${lawName}"`
   );
 
   const channelMessage = await interaction.channel.send(
@@ -130,4 +132,46 @@ async function createLaw(interaction) {
   }
 }
 
-module.exports = createLaw;
+async function repealLaw(interaction) {
+  let lawName = interaction.fields.getTextInputValue("lawNameInput");
+
+  const existingLaw = await isExistingLaw(lawName, interaction.guild.id);
+
+  if (!existingLaw) {
+    return interaction.reply({
+      content: "That law does not exist",
+      ephemeral: true,
+    });
+  }
+
+  const votingResult = await voting(interaction, lawName);
+
+  switch (votingResult) {
+    case "passed":
+      const lawID = await lawModel.find({
+        guildID: interaction.guild.id,
+        name: lawName.toLowerCase(),
+      });
+
+      lawModel.findByIdAndDelete(lawID, function (err, docs) {
+        if (err) {
+          console.log(err);
+        }
+      });
+      interaction.channel.send(`The ${lawName} has been repealed!`);
+      break;
+    case "failed":
+      interaction.channel.send(`The ${lawName} law has failed to repeal!`);
+      break;
+    case "tied":
+      interaction.channel.send(`The ${lawName} law has tied!`);
+      break;
+    default:
+      interaction.channel.send(
+        `The vote did not meet the required amount of votes of ${lawRequiredVotes}!`
+      );
+      break;
+  }
+}
+
+module.exports = { createLaw, repealLaw };
