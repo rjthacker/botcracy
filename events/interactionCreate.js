@@ -1,5 +1,5 @@
 const { Events } = require("discord.js");
-const createLaw = require("../functions/voting");
+const { createLaw, repealLaw } = require("../functions/voting");
 
 module.exports = {
   name: Events.InteractionCreate,
@@ -23,7 +23,11 @@ module.exports = {
     }
 
     if (interaction.isModalSubmit()) {
-      createLaw(interaction);
+      if (interaction.customId === "createLawModal") {
+        createLaw(interaction);
+      } else if (interaction.customId === "repealLawModal") {
+        repealLaw(interaction);
+      }
     }
   },
 };
