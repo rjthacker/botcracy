@@ -8,12 +8,12 @@ const { SlashCommandBuilder } = require("@discordjs/builders");
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("create-law")
-    .setDescription("Starts the voting process for creating a new law"),
+    .setName("repeal-law")
+    .setDescription("Starts the voting process for repealing a law"),
   async execute(interaction) {
     const modal = new ModalBuilder()
-      .setCustomId("createLawModal")
-      .setTitle("Law Creator");
+      .setCustomId("repealLawModal")
+      .setTitle("Repeal Law");
 
     const lawNameInput = new TextInputBuilder()
       .setCustomId("lawNameInput")
@@ -21,17 +21,9 @@ module.exports = {
       .setStyle(TextInputStyle.Short)
       .setRequired(true);
 
-    const lawDescriptionInput = new TextInputBuilder()
-      .setCustomId("lawDescriptionInput")
-      .setLabel("Provide a description of what the law does.")
-      .setStyle(TextInputStyle.Paragraph)
-      .setRequired(true);
-
     const firstActionRow = new ActionRowBuilder().addComponents(lawNameInput);
-    const secondActionRow = new ActionRowBuilder().addComponents(
-      lawDescriptionInput
-    );
-    modal.addComponents(firstActionRow, secondActionRow);
+
+    modal.addComponents(firstActionRow);
 
     // Show the modal to the user
     await interaction.showModal(modal);
