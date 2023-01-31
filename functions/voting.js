@@ -1,12 +1,13 @@
 const lawModel = require("../src/models/law");
 
+let yes = 0;
+let no = 0;
+let totalVotes = 0;
+let votingTime = 60000;
+let lawRequiredVotes = 1;
+
 async function voting(interaction, lawName, lawDescription) {
   let users = [];
-  let yes = 0;
-  let no = 0;
-  let totalVotes = 0;
-  let votingTime = 60000;
-  let lawRequiredVotes = 1;
 
   if (process.env.NODE_ENV === "development") {
     votingTime = 10000;
@@ -17,7 +18,7 @@ async function voting(interaction, lawName, lawDescription) {
   );
 
   const channelMessage = await interaction.channel.send(
-    `You have ${votingTime / 60000} minutes to vote!`
+    `You have ${votingTime / 60000} minute to vote!`
   );
 
   await channelMessage.react("👍");
@@ -98,8 +99,21 @@ async function createLaw(interaction) {
 
   const votingResult = await voting(interaction, lawName, lawDescription);
 
+  const newLaw = new lawModel({
+    guildID: interaction.guild.id,
+    guildName: interaction.guild.name,
+    name: lawName,
+    description: lawDescription,
+    representative: interaction.user.id,
+    createdDate: new Date(),
+    totalVotes: totalVotes,
+    yes: yes,
+    no: no,
+  });
+
   switch (votingResult) {
     case "passed":
+      newLaw.save();
       interaction.channel.send(`The ${lawName} has passed!`);
       break;
     case "failed":
