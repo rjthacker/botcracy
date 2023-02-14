@@ -1,3 +1,12 @@
+const {
+  MessageActionRow,
+  ActionRowBuilder,
+  ButtonBuilder,
+  ButtonStyle,
+  EmbedBuilder,
+  Events,
+} = require("discord.js");
+
 const lawModel = require("../src/models/law");
 
 let yes = 0;
@@ -13,40 +22,70 @@ async function voting(interaction, lawName, lawDescription) {
     votingTime = 10000;
   }
 
-  await interaction.reply(
-    interaction.customId === "createLawModal"
-      ? `${interaction.user} has started a vote on the law "${lawName}"\nThe law description is: "${lawDescription}"`
-      : `${interaction.user} has started a vote to repeal the law "${lawName}"`
+  // await interaction.reply({ components: [row] });
+
+  // await interaction.reply(
+  //   interaction.customId === "createLawModal"
+  //     ? `${interaction.user} has started a vote on the law "${lawName}"\nThe law description is: "${lawDescription}"`
+  //     : `${interaction.user} has started a vote to repeal the law "${lawName}\n${noButton}"`
+  // );
+
+  const embed = new EmbedBuilder()
+    .setColor(0x0099ff)
+    .setTitle(lawName)
+    .setDescription(lawDescription);
+
+  const row = new ActionRowBuilder().addComponents(
+    new ButtonBuilder()
+      .setCustomId("yes")
+      .setLabel("Vote Yes")
+      .setStyle(ButtonStyle.Primary),
+    new ButtonBuilder()
+      .setCustomId("no")
+      .setLabel("Vote No")
+      .setStyle(ButtonStyle.Danger)
   );
 
   const channelMessage = await interaction.channel.send(
     `You have ${votingTime / 60000} minute to vote!`
   );
 
-  await channelMessage.react("👍");
-  await channelMessage.react("👎");
+  await interaction.reply({
+    content: `You have ${votingTime / 60000} minute to vote!`,
+    embeds: [embed],
+    components: [row],
+  });
 
-  const filter = (reaction) => {
-    return ["👍", "👎"].includes(reaction.emoji.name);
-  };
+  const filter = (vote) => vote.customId === "yes" || vote.customId === "no";
 
-  const collector = channelMessage.createReactionCollector({
+  const collector = interaction.channel.createMessageComponentCollector({
     filter,
     time: votingTime,
   });
 
-  collector.on("collect", (reaction) => {
-    if (reaction.emoji.name === "👍" && !users.includes(interaction.user.id)) {
+  collector.on("collect", (vote) => {
+    if (vote.customId === "yes" && !users.includes(interaction.user.id)) {
       users.push(interaction.user.id);
       yes += 1;
       totalVotes += 1;
-    } else if (
-      reaction.emoji.name === "👎" &&
-      !users.includes(interaction.user.id)
-    ) {
+      console.log("yes");
+      vote.update({
+        content: "Thanks for voting!",
+        ephemeral: true,
+        components: [],
+        setDisabled: true,
+      });
+    } else if (vote.customId === "no" && !users.includes(interaction.user.id)) {
       users.push(interaction.user.id);
       no += 1;
       totalVotes += 1;
+      console.log("no");
+      vote.update({
+        content: "Thanks for voting!",
+        ephemeral: true,
+        components: [],
+        setDisabled: true,
+      });
     }
   });
 
