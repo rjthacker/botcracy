@@ -19,7 +19,7 @@ async function voting(interaction, lawName, lawDescription) {
   let users = [];
 
   if (process.env.NODE_ENV === "development") {
-    votingTime = 10000;
+    votingTime = 30000;
   }
 
   // await interaction.reply({ components: [row] });
@@ -30,19 +30,23 @@ async function voting(interaction, lawName, lawDescription) {
   //     : `${interaction.user} has started a vote to repeal the law "${lawName}\n${noButton}"`
   // );
 
-  const embed = new EmbedBuilder()
+  const pollEmbed = new EmbedBuilder()
     .setColor(0x0099ff)
     .setTitle(lawName)
-    .setDescription(lawDescription);
+    .setDescription(lawDescription)
+    .addFields([
+      { name: "Yes", value: "0", inline: true },
+      { name: "No", value: "0", inline: true },
+    ]);
 
-  const row = new ActionRowBuilder().addComponents(
+  const pollButtons = new ActionRowBuilder().addComponents(
     new ButtonBuilder()
-      .setCustomId("yes")
       .setLabel("Vote Yes")
-      .setStyle(ButtonStyle.Primary),
+      .setCustomId("yes")
+      .setStyle(ButtonStyle.Success),
     new ButtonBuilder()
-      .setCustomId("no")
       .setLabel("Vote No")
+      .setCustomId("no")
       .setStyle(ButtonStyle.Danger)
   );
 
@@ -52,8 +56,8 @@ async function voting(interaction, lawName, lawDescription) {
 
   await interaction.reply({
     content: `You have ${votingTime / 60000} minute to vote!`,
-    embeds: [embed],
-    components: [row],
+    embeds: [pollEmbed],
+    components: [pollButtons],
   });
 
   const filter = (vote) => vote.customId === "yes" || vote.customId === "no";
@@ -69,23 +73,25 @@ async function voting(interaction, lawName, lawDescription) {
       yes += 1;
       totalVotes += 1;
       console.log("yes");
-      vote.update({
-        content: "Thanks for voting!",
-        ephemeral: true,
-        components: [],
-        setDisabled: true,
-      });
+      console.log(totalVotes);
+      // vote.update({
+      //   content: "Thanks for voting!",
+      //   ephemeral: true,
+      //   components: [],
+      //   setDisabled: true,
+      // });
     } else if (vote.customId === "no" && !users.includes(interaction.user.id)) {
       users.push(interaction.user.id);
       no += 1;
       totalVotes += 1;
       console.log("no");
-      vote.update({
-        content: "Thanks for voting!",
-        ephemeral: true,
-        components: [],
-        setDisabled: true,
-      });
+      console.log(totalVotes);
+      // vote.update({
+      //   content: "Thanks for voting!",
+      //   ephemeral: true,
+      //   components: [],
+      //   setDisabled: true,
+      // });
     }
   });
 
